@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
+<head th:replace="layout/header :: head">
+</head>
+
+<body id="page-top">
+	<th:block th:replace="/layout/header :: navbar"></th:block>
+
+	<div data-spy="scroll" data-target="#scroll-sidebar" data-offset="0"
+		class="scrollspy-example">
+		<!-- Portfolio Section -->
+		<section class="page-section portfolio" id="page-content">
+			<div class="container">
+
+				<!-- Portfolio Section Heading -->
+				<h2
+					class="page-section-heading text-center text-uppercase text-secondary mb-0"
+					th:text="#{users.label}">entries</h2>
+
+				<!-- Icon Divider -->
+				<div class="divider-custom">
+					<div class="divider-custom-line"></div>
+				</div>
+
+				<div th:if="${save}" class="alert alert-success" role="alert"
+					th:text="#{alert.success}">A simple success alert—check it
+					out!</div>
+				<div class="row justify-content-md-end">
+					<div class="col-4">
+						<form action="/users/search">
+
+
+							<div class="row ">
+
+								<div class="col-9">
+									Name Search <input type="text" id="search2"
+										class="form-control mb-0" placeholder="Search By Name"
+										name="nameSearch">
+								</div>
+								<div class="col-2">
+
+									<button type="submit" class="btn btn-primary ">
+										<i class="fas fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row pb-3 mb-3">
+					<th:block th:if="${!#lists.isEmpty(entries)}">
+						<div class="row col-12">
+							<nav aria-label="...">
+								<ul class="pagination">
+									<li class="page-item"
+										th:classappend="${entries.number < 1}?disabled"><a
+										class="page-link"
+										th:href="@{'/users?page=' + ${entries.number}}" tabindex="-1"
+										th:text="#{previous.label}">Previous</a></li>
+									<li class="page-item" th:if="${entries.number > 1}"><a
+										class="page-link"
+										th:href="@{/users(page=${entries.number}, size=${param.size})}"
+										th:text="${entries.number - 1}">1</a></li>
+									<li class="page-item" th:if="${entries.number > 0}"><a
+										class="page-link"
+										th:href="@{/users(page=${entries.number}, size=${param.size})}"
+										th:text="${entries.number}">1</a></li>
+									<li class="page-item active"><a class="page-link"
+										th:href="@{/users(page=${entries.number + 1}, size=${param.size})}"
+										th:text="${entries.number + 1}">1</a></li>
+									<li class="page-item"
+										th:if="${entries.number < entries.totalPages - 1}"><a
+										class="page-link"
+										th:href="@{/users(page=${entries.number + 2}, size=${param.size})}"
+										th:text="${entries.number + 2}">1</a></li>
+									<li class="page-item"
+										th:if="${entries.number < entries.totalPages - 2}"><a
+										class="page-link"
+										th:href="@{/users(page=${entries.number + 3}, size=${param.size})}"
+										th:text="${entries.number + 3}">1</a></li>
+									<li class="page-item"
+										th:classappend="${entries.number > entries.totalPages - 2}?disabled"><a
+										class="page-link" href="#" th:text="#{next.label}"
+										th:href="@{/users(page=${entries.number + 2}, size=${param.size})}">Next</a></li>
+								</ul>
+							</nav>
+							<!-- 							<button type="button" -->
+							<!-- 								class="btn btn-primary mb-3 mr-4 ml-4 pl-4 pr-4" -->
+							<!-- 								th:text="#{create.label}" -->
+							<!-- 								onclick="window.location.href='/users/add'">Primary</button> -->
+						</div>
+						<div class="row col-12">
+							<div class="col-12">
+								<div class="d-flex bd-highlight">
+									<div class="p-2 flex-fill bd-highlight">User Name</div>
+
+								</div>
+							</div>
+							<div class="list-group list-group-flush col-12">
+								<div th:each="entry : ${entries}"
+									class="list-group-item list-group-item-action d-flex bd-highlight table-entry">
+									<div class="p-2 flex-fill bd-highlight"
+										th:text="${entry.username}"></div>
+
+									<div class="p-2 ml-auto bd-highlight right">
+										<!-- 										<button type="button" class="btn btn-outline-primary" -->
+										<!-- 											th:attr="onclick=${'window.location.href=''/users/' + entry.id + ''''}" -->
+										<!-- 											th:text=#{edit.label}></button> -->
+										<!-- 										<input type="hidden" th:value="${entry.id}"> -->
+										<!-- 																				<button type="button" -->
+										<!-- 											class="btn btn-outline-danger delete-button" -->
+										<!-- 											th:text="#{delete.label}" data-toggle="modal" -->
+										<!-- 											data-target="#confirmation" -->
+										<!-- 											th:attr="data-id=${entry.id}, data-code=${entry.username}"></button> -->
+										<!-- 									</div> -->
+									</div>
+								</div>
+							</div>
+					</th:block>
+					<div th:if="${#lists.isEmpty(entries)}"
+						class="col-md-12 col-lg-12 text-center">
+						<p th:text="#{none.label}">None Found</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<th:block th:replace="/layout/footer :: footer"></th:block>
+	<!-- Modal -->
+	<div class="modal fade" id="confirmation" tabindex="-1" role="dialog"
+		aria-labelledby="confirmationLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="confirmationLabel"
+						th:text="#{confirmation.label}">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary m-2"
+						data-dismiss="modal" th:text="#{cancel.label}">Close</button>
+					<button type="button" id="confirm-delete"
+						class="btn btn-primary m-2" th:text="#{delete.label}">Save
+						changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var id = null;
+
+		$('#confirmation').on('show.bs.modal', function(event) {
+			var button = $(event.relatedTarget);
+			var recipient = button.data('id');
+			var modal = $(this);
+			modal.find('.modal-body input').val(recipient);
+			id = recipient;
+		});
+
+		$('#confirm-delete').on('click', function(event) {
+			window.location.href = '/users/delete/' + id;
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+server:
+    tomcat:
+        uri-encoding: UTF-8
+    port: 9091
+      
+spring:
+    data:
+        web:
+            pageable:
+                one-indexed-parameters: true
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    http:
+        encoding:
+            charset: UTF-8
+            enabled: true
+            force: true
+    servlet:
+        multipart:
+          max-file-size: 50MB
+    jpa:
+        show-sql: true
+        properties:
+         hibernate.format_sql: true
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        hibernate:
+          ddl-auto: none
+          naming:            physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+            implicit-strategy: org.springframework.boot.orm.jpa.SpringNamingStrategy
+       messages:
+        basename: i18n/messages
+    profiles:
+        active: local
+springdocs:
+    packagesToScan: com
+
+---
+
+
+
+spring:
+  profiles: local
+  user-datasource:
+   jdbc-url: jdbc:mysql://root:123@localhost:3306/store?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+   driver-class-name: com.mysql.cj.jdbc.Driver
+   database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+   hikari:
+    max-life-time : 600000 
+   jpa:
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+    hibernate: 
+     naming: 
+      physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  

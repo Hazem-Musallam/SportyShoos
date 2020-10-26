@@ -1,0 +1,29 @@
+server:
+    tomcat:
+        uri-encoding: UTF-8
+    port: 8084
+spring:
+    data:
+        web:
+            pageable:
+                one-indexed-parameters: true
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        #url: jdbc:mysql://root:root@localhost:3306/wof?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+        url: jdbc:mysql://10.1.167.110:3306/wof?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+        username: devadmin
+        password: Evamp@003
+    http:
+        encoding:
+            charset: UTF-8
+            enabled: true
+            force: true
+    servlet:
+        multipart:
+          max-file-size: 50MB
+    jpa:
+        database-platform: org.hibernate.dialect.MySQL5Dialect
+        hibernate:
+            ddl-auto: update
+    messages:
+        basename: i18n/messages

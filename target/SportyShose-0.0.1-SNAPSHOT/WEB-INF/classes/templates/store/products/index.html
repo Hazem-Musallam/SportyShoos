@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
+<head th:replace="layout/header :: head">
+</head>
+
+<body id="page-top">
+	<th:block th:replace="/layout/header :: navbar"></th:block>
+
+	<div data-spy="scroll" data-target="#scroll-sidebar" data-offset="0"
+		class="scrollspy-example">
+		<!-- Portfolio Section -->
+		<section class="page-section portfolio" id="page-content">
+			<div class="container">
+
+				<div th:if="${success}" class="alert alert-success"
+					th:text="#{alert.success}"></div>
+
+				<!-- Portfolio Section Heading -->
+				<h2
+					class="page-section-heading text-center text-uppercase text-secondary mb-0"
+					th:text="#{products.manage.label}">entries</h2>
+
+				<!-- Icon Divider -->
+				<div class="divider-custom">
+					<div class="divider-custom-line"></div>
+				</div>
+
+				<div th:if="${save}" class="alert alert-success" role="alert"
+					th:text="#{alert.success}">A simple success alert—check it
+					out!</div>
+
+				<div class="row pb-3 mb-3">
+					<th:block th:if="${!#lists.isEmpty(entries)}">
+						<div class="row col-12">
+							<nav aria-label="...">
+								<ul class="pagination">
+									<li class="page-item"
+										th:classappend="${entries.number < 1}?disabled"><a
+										class="page-link"
+										th:href="@{'/products?page=' + ${entries.number}}"
+										tabindex="-1">Previous</a></li>
+									<li class="page-item" th:if="${entries.number > 1}"><a
+										class="page-link"
+										th:href="@{/products(page=${entries.number}, size=${param.size})}"
+										th:text="${entries.number - 1}">1</a></li>
+									<li class="page-item" th:if="${entries.number > 0}"><a
+										class="page-link"
+										th:href="@{/products(page=${entries.number}, size=${param.size})}"
+										th:text="${entries.number}">1</a></li>
+									<li class="page-item active"><a class="page-link"
+										th:href="@{/products(page=${entries.number + 1}, size=${param.size})}"
+										th:text="${entries.number + 1}">1</a></li>
+									<li class="page-item"
+										th:if="${entries.number < entries.totalPages - 1}"><a
+										class="page-link"
+										th:href="@{/products(page=${entries.number + 2}, size=${param.size})}"
+										th:text="${entries.number + 2}">1</a></li>
+									<li class="page-item"
+										th:if="${entries.number < entries.totalPages - 2}"><a
+										class="page-link"
+										th:href="@{/products(page=${entries.number + 3}, size=${param.size})}"
+										th:text="${entries.number + 3}">1</a></li>
+									<li class="page-item"
+										th:classappend="${entries.number > entries.totalPages - 2}?disabled"><a
+										class="page-link" href="#"
+										th:href="@{/products(page=${entries.number + 2}, size=${param.size})}">Next</a></li>
+								</ul>
+							</nav>
+							<button type="button"
+								class="btn btn-primary mb-3 mr-4 ml-4 pl-4 pr-4"
+								onclick="window.location.href='/products/add'">Add New
+								Product</button>
+						</div>
+						<div class="row col-12">
+							<div class="col-12">
+								<div class="d-flex bd-highlight">
+									<div class="p-2 flex-fill bd-highlight">Name</div>
+									<div class="p-2 flex-fill bd-highlight">Price</div>
+									<div class="p-2 flex-fill bd-highlight">Categories</div>
+									<div class="p-2 flex-fill bd-highlight">Actions</div>
+								</div>
+							</div>
+							<div class="list-group list-group-flush col-12">
+								<div th:each="entry : ${entries}"
+									class="list-group-item list-group-item-action d-flex bd-highlight table-entry">
+									<div class="p-2 flex-fill bd-highlight"
+										th:text="${entry.productName}"></div>
+									<div class="p-2 flex-fill bd-highlight"
+										th:text="${entry.price}"></div>
+									<div class="p-2 flex-fill bd-highlight">
+										<div th:each="prdCat : ${entry.categories}"
+											class="list-group-item list-group-item-action d-flex bd-highlight table-entry">
+											<div class="p-2 flex-fill bd-highlight"
+												th:text="${prdCat.categoryName}"></div>
+										</div>
+									</div>
+
+
+									<div class="p-2 ml-auto bd-highlight right">
+										<button type="button" class="btn btn-outline-primary"
+											th:attr="onclick=${'window.location.href=''/products/edit/' + entry.id + ''''}">Edit</button>
+										<input type="hidden" th:value="${entry.id}">
+										<button type="button"
+											class="btn btn-outline-danger delete-button"
+											data-toggle="modal" data-target="#confirmation"
+											th:attr="data-id=${entry.id}, data-code=${entry.productName}">Delete</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</th:block>
+					<div th:if="${#lists.isEmpty(entries)}"
+						class="col-md-12 col-lg-12 text-center">
+						<p th:text="#{none.label}">None Found</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<th:block th:replace="/layout/footer :: footer"></th:block>
+	<!-- Modal -->
+	<div class="modal fade" id="confirmation" tabindex="-1" role="dialog"
+		aria-labelledby="confirmationLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="confirmationLabel">Confirmation</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary m-2"
+						data-dismiss="modal">Close</button>
+					<button type="button" id="confirm-delete"
+						class="btn btn-primary m-2">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var id = null;
+
+		$('#confirmation').on('show.bs.modal', function(event) {
+			var button = $(event.relatedTarget);
+			var recipient = button.data('id');
+			var modal = $(this);
+			modal.find('.modal-body input').val(recipient);
+			id = recipient;
+		});
+
+		$('#confirm-delete').on('click', function(event) {
+			window.location.href = '/products/delete/' + id;
+		});
+	</script>
+</body>
+</html>

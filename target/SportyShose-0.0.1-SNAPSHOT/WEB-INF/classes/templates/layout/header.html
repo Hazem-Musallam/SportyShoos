@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	lang="en">
+<head th:fragment="head">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<!-- <meta name="_csrf" th:content="${_csrf.token}" /> -->
+<!-- <meta name="_csrf_header" th:content="${_csrf.headerName}" /> -->
+
+<title th:text="#{site.admin.title}">Invisit</title>
+
+<!-- Custom fonts for this theme -->
+<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+
+<link href="/vendor/bootstrap-select/bootstrap-select.min.css"
+	rel="stylesheet" type="text/css">
+
+<!-- Theme CSS -->
+<link href="/css/freelancer.css" rel="stylesheet">
+<link href="/css/daterangepicker.css" rel="stylesheet">
+
+<link href="/css/style.css" rel="stylesheet">
+</head>
+
+<body id="page-top">
+	<!-- Navigation -->
+	<nav
+		class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top"
+		id="mainNav" th:fragment="navbar">
+		<div class="container">
+			<a class="navbar-brand js-scroll-trigger" th:href="@{/}">Sport
+				Shoes</a>
+
+			<button
+				class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded"
+				type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false"
+				aria-label="Toggle navigation">
+				Menu <i class="fas fa-bars"></i>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul sec:authorize="isAuthenticated()" class="navbar-nav ml-auto">
+					<li sec:authorize="hasRole('ADMIN')" class="nav-item mx-0 mx-lg-1"
+						th:classappend="${#httpServletRequest.requestURI == '/profile'}?active"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+						th:href="@{/profile}" th:text="#{profile.label}">Profile</a></li>
+
+					<li sec:authorize="hasRole('ADMIN')" class="nav-item mx-0 mx-lg-1"
+						th:classappend="${#httpServletRequest.requestURI == '/categories'}?active"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+						th:href="@{/categories}">categories</a></li>
+						
+					<li sec:authorize="hasRole('ADMIN')" class="nav-item mx-0 mx-lg-1"
+						th:classappend="${#httpServletRequest.requestURI == '/products'}?active"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+						th:href="@{/products}" th:text="#{products.manage.label}">WoF</a></li>
+
+					<li sec:authorize="hasRole('ADMIN')" class="nav-item mx-0 mx-lg-1"
+						th:classappend="${#httpServletRequest.requestURI == '/users'}?active"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+						th:href="@{/users}" th:text="#{users.label}">Users</a></li>
+
+					<li sec:authorize="hasRole('ADMIN')" class="nav-item mx-0 mx-lg-1"
+						th:classappend="${#httpServletRequest.requestURI == '/reports'}?active"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+						th:href="@{/reports}" th:text="#{reports.label}">Users</a></li>
+
+					<li class="nav-item mx-0 mx-lg-1"
+						th:classappend="${#httpServletRequest.requestURI == '/shop'}?active"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+						th:href="@{/shop}">Shop</a></li>
+
+					<li class="nav-item mx-0mx-lg-1"
+						th:classappend="${#httpServletRequest.requestURI == '/logout'}?active"><a
+						class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger"
+						th:href="${#httpServletRequest.requestURI == '/logout' ? '#page-content' : '/logout'}">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</body>
+</html>

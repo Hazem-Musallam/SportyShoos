@@ -1,0 +1,83 @@
+@font-face {
+	font-family: "Cairo";
+	src: url("webfonts/Cairo-Regular.ttf");
+}
+
+@font-face {
+	font-family: "Cairo";
+	src: url("webfonts/Cairo-Bold.ttf");
+	font-weight: bold;
+}
+
+html, body {
+	font-family: 'Cairo', sans-serif;
+}
+
+#scroll-sidebar {
+	position: fixed;
+	top: 200px;
+}
+
+#scroll-sidebar .list-group-item:first-child {
+	border-top-left-radius: 0px;
+}
+
+#scroll-sidebar .list-group-item:last-child {
+	border-bottom-left-radius: 0px;
+}
+
+.bg-primary {
+	background-color: #f60 !important;
+}
+
+.bg-secondary {
+	background-color: #333 !important;
+}
+
+.scrollspy-example {
+	padding-top: 40px;
+}
+
+.login-container {
+	padding: 120px;
+	text-align: center;
+}
+
+.img-fluid {
+	border: solid 1px;
+	border-radius: 20px;
+}
+
+.portfolio-item:hover {
+	opacity: 1;
+}
+
+.portfolio-item {
+	opacity: 0.7;
+}
+
+#mainNav {
+	padding: 0px !important;
+}
+
+#mainNav .navbar-nav li.nav-item:hover {
+	color: #ff6600;
+	background-color: #ff6600;
+}
+
+#mainNav .navbar-nav li.nav-item.active, #mainNav .navbar-nav li.nav-item:focus
+	{
+	background-color: #ff6600;
+}
+
+#mainNav .navbar-nav li.nav-item.active a:hover {
+	color: #ddd;
+}
+
+#mainNav .navbar-nav li.nav-item a.nav-link.active {
+	color: #ff6600;
+}
+
+.btn {
+	cursor: pointer;
+}
