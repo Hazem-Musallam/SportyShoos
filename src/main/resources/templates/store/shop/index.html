@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
+<head th:replace="layout/header :: head">
+</head>
+
+<body id="page-top">
+	<th:block th:replace="/layout/header :: navbar"></th:block>
+
+	<div data-spy="scroll" data-target="#scroll-sidebar" data-offset="0"
+		class="scrollspy-example">
+		<!-- Portfolio Section -->
+		<section class="page-section portfolio" id="page-content">
+			<div class="container">
+
+				<div th:if="${success}" class="alert alert-success"
+					th:text="#{alert.success}"></div>
+
+				<!-- Portfolio Section Heading -->
+				<h2
+					class="page-section-heading text-center text-uppercase text-secondary mb-0">shop</h2>
+
+				<!-- Icon Divider -->
+				<div class="divider-custom">
+					<div class="divider-custom-line"></div>
+				</div>
+
+				<div th:if="${save}" class="alert alert-success" role="alert"
+					th:text="#{alert.success}">A simple success alert—check it
+					out!</div>
+
+				<div class="row pb-3 mb-3">
+					<th:block th:if="${!#lists.isEmpty(entries)}">
+						<div class="row col-12">
+							<nav aria-label="...">
+								<ul class="pagination">
+									<li class="page-item"
+										th:classappend="${entries.number < 1}?disabled"><a
+										class="page-link"
+										th:href="@{'/shop?page=' + ${entries.number}}" tabindex="-1">Previous</a></li>
+									<li class="page-item" th:if="${entries.number > 1}"><a
+										class="page-link"
+										th:href="@{/shop(page=${entries.number}, size=${param.size})}"
+										th:text="${entries.number - 1}">1</a></li>
+									<li class="page-item" th:if="${entries.number > 0}"><a
+										class="page-link"
+										th:href="@{/shop(page=${entries.number}, size=${param.size})}"
+										th:text="${entries.number}">1</a></li>
+									<li class="page-item active"><a class="page-link"
+										th:href="@{/shop(page=${entries.number + 1}, size=${param.size})}"
+										th:text="${entries.number + 1}">1</a></li>
+									<li class="page-item"
+										th:if="${entries.number < entries.totalPages - 1}"><a
+										class="page-link"
+										th:href="@{/shop(page=${entries.number + 2}, size=${param.size})}"
+										th:text="${entries.number + 2}">1</a></li>
+									<li class="page-item"
+										th:if="${entries.number < entries.totalPages - 2}"><a
+										class="page-link"
+										th:href="@{/shop(page=${entries.number + 3}, size=${param.size})}"
+										th:text="${entries.number + 3}">1</a></li>
+									<li class="page-item"
+										th:classappend="${entries.number > entries.totalPages - 2}?disabled"><a
+										class="page-link" href="#"
+										th:href="@{/shop(page=${entries.number + 2}, size=${param.size})}">Next</a></li>
+								</ul>
+							</nav>
+
+						</div>
+						<div class="row col-12">
+							<div class="col-12">
+								<div class="d-flex bd-highlight">
+									<div class="p-2 flex-fill bd-highlight">Name</div>
+									<div class="p-2 flex-fill bd-highlight">Price</div>
+									<div class="p-2 flex-fill bd-highlight">Category</div>
+									<div class="p-2 flex-fill bd-highlight">Buy</div>
+
+
+								</div>
+							</div>
+							<div class="list-group list-group-flush col-12">
+								<form th:action="@{/purchase}" enctype="multipart/form-data"
+									method="post" th:object="${form}">
+									<div th:each="entry : ${entries}"
+										class="list-group-item list-group-item-action d-flex bd-highlight table-entry">
+										<div class="p-2 flex-fill bd-highlight"
+											th:text="${entry.productName}"></div>
+										<div class="p-2 flex-fill bd-highlight"
+											th:text="${entry.price}"></div>
+										<div class="p-2 flex-fill bd-highlight">
+											<div th:each="prdCat : ${entry.categories}"
+												class="list-group-item list-group-item-action d-flex bd-highlight table-entry">
+												<div class="p-2 flex-fill bd-highlight"
+													th:text="${prdCat.categoryName}"></div>
+											</div>
+										</div>
+										<div class="p-2 flex-fill bd-highlight">
+											<input maxlength="250" id="name-en" type="checkbox"
+												class="form-control" th:name="|item[${entry.id}]|"
+												th:value="true">
+										</div>
+
+
+
+									</div>
+									<br>
+									<div class="row justify-content-center">
+										<button type="submit" class="btn btn-primary mb-2">Confirm</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</th:block>
+					<div th:if="${#lists.isEmpty(entries)}"
+						class="col-md-12 col-lg-12 text-center">
+						<p th:text="#{none.label}">None Found</p>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<th:block th:replace="/layout/footer :: footer"></th:block>
+	<!-- Modal -->
+	<div class="modal fade" id="confirmation" tabindex="-1" role="dialog"
+		aria-labelledby="confirmationLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="confirmationLabel">Confirmation</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary m-2"
+						data-dismiss="modal">Close</button>
+					<button type="button" id="confirm-delete"
+						class="btn btn-primary m-2">Delete</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

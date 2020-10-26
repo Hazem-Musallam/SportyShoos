@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
+<head th:replace="layout/header :: head">
+</head>
+
+<body id="page-top">
+	<th:block th:replace="layout/header :: navbar"></th:block>
+
+	<div data-spy="scroll" data-target="#scroll-sidebar" data-offset="0"
+		class="scrollspy-example">
+		<!-- Portfolio Section -->
+		<section class="page-section portfolio" id="page-content">
+			<div class="container">
+
+				<div th:if="${success}" class="alert alert-success"
+					th:text="#{alert.success}"></div>
+
+				<!-- Portfolio Section Heading -->
+				<h2
+					class="page-section-heading text-center text-uppercase text-secondary mb-0"
+					th:text="#{profile.label}">entries</h2>
+
+				<!-- Icon Divider -->
+				<div class="divider-custom">
+					<div class="divider-custom-line"></div>
+				</div>
+
+
+
+				<form th:action="@{/profile}" method="post" th:object="${form}">
+					<div th:if="${save}" class="alert alert-success" role="alert"
+						th:text="#{alert.success}">A simple success alert—check it
+						out!</div>
+					<div class="row mb-3">
+						<div class="col">
+							<label for="old-password" th:text="#{old-password.label}"></label>
+							<input id="old-password" type="password" class="form-control"
+								th:placeholder="#{old-password.label}" th:field="*{oldPassword}"
+								th:classappend="${#fields.hasErrors('oldPassword')}? is-invalid"
+								required="required">
+							<div th:each="err : ${#fields.errors('oldPassword')}"
+								th:text="${err}" class="invalid-feedback">Please choose a
+								username.</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col">
+							<label for="new-password" th:text="#{new-password.label}"></label>
+							<input id="new-password" type="password" class="form-control"
+								th:placeholder="#{new-password.label}" th:field="*{newPassword}"
+								th:classappend="${#fields.hasErrors('newPassword')}? is-invalid"
+								pattern=".{6,}" required="required">
+							<div th:each="err : ${#fields.errors('newPassword')}"
+								th:text="${err}" class="invalid-feedback">Please choose a
+								username.</div>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col">
+							<label for="confirm-new-password"
+								th:text="#{confirm.new-password.label}"></label> <input
+								id="confirm-new-password" type="password" class="form-control"
+								th:placeholder="#{confirm.new-password.label}" pattern=".{6,}"
+								required="required">
+							<div id="password-match" class="invalid-feedback"
+								th:text="#{password.not.match}"></div>
+						</div>
+					</div>
+					<div class="row justify-content-center">
+						<button type="submit" class="btn btn-primary mb-2"
+							th:text="#{save.label}">Confirm identity</button>
+					</div>
+				</form>
+			</div>
+		</section>
+	</div>
+	<th:block th:replace="layout/footer :: footer"></th:block>
+	<script type="text/javascript">
+		var opw = document.querySelector('#old-password');
+		var npw = document.querySelector('#new-password');
+		var cpw = document.querySelector('#confirm-new-password');
+		var passwordMatch = $('#password-match');
+		var form = document.querySelector('form');
+
+		form.onsubmit = function(e) {
+			if (cpw.value != npw.value) {
+				passwordMatch.show();
+				return false;
+			}
+		}
+
+		cpw.oninput = function(e) {
+			passwordMatch.hide();
+		}
+	</script>
+</body>
+</html>

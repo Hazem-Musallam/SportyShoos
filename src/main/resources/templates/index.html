@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/header :: head">
+</head>
+
+<body id="page-top" class="bg-primary">
+	<th:block th:replace="layout/header :: navbar"></th:block>
+
+	<div data-spy="scroll" data-target="#scroll-sidebar" data-offset="0"
+		class="scrollspy-example bg-primary text-white">
+		<!-- Portfolio Section -->
+		<section class="page-section portfolio text-white" id="page-content">
+			<div class="container text-white">
+
+				<!-- Portfolio Section Heading -->
+				<h2 class="page-section-heading text-center text-uppercase mb-0"
+					th:text="#{site.admins.title}">Admin</h2>
+
+				<!-- Icon Divider -->
+				<div class="divider-custom divider-light">
+					<div class="divider-custom-line"></div>
+				</div>
+
+				<!-- Portfolio Grid Items -->
+				<div class="row mt-5 pt-5 align-center">
+
+					<!-- Portfolio Item 1 -->
+					<div class="col" sec:authorize="hasRole('ADMIN')">
+						<div class="portfolio-item mx-auto text-center"
+							data-toggle="modal" data-target="#portfolioModal1">
+							<div
+								class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100"
+								id="categories">
+								<div
+									class="portfolio-item-caption-content text-center text-white">
+								</div>
+							</div>
+							<i class="fas fa-spinner fa-10x mt-5 mb-5"></i>
+							<h4>Categories</h4>
+						</div>
+					</div>
+
+
+					<div class="col" sec:authorize="hasRole('ADMIN')">
+						<div class="portfolio-item mx-auto text-center"
+							data-toggle="modal" data-target="#portfolioModal1">
+							<div
+								class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100"
+								id="reports">
+								<div
+									class="portfolio-item-caption-content text-center text-white">
+								</div>
+							</div>
+							<i class="far fa-envelope fa-10x mt-5 mb-5"></i>
+							<h4 th:text="#{reports.label}">Products</h4>
+						</div>
+					</div>
+
+
+					<!-- Portfolio Item 3 -->
+					<div class="col" sec:authorize="hasRole('ADMIN')">
+						<div class="portfolio-item mx-auto text-center"
+							data-toggle="modal" data-target="#portfolioModal1">
+							<div
+								class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100"
+								id="users">
+								<div
+									class="portfolio-item-caption-content text-center text-white">
+								</div>
+							</div>
+							<i class="far fa-calendar-check fa-10x mt-5 mb-5"></i>
+							<h4 th:text="#{users.label}">Products</h4>
+						</div>
+					</div>
+				</div>
+				<!-- /.row -->
+
+			</div>
+		</section>
+	</div>
+	<script type="text/javascript">
+		var users = document.querySelector('#users');
+		var products = document.querySelector('#categories');
+		var reports = document.querySelector('#reports');
+
+		if (users) {
+			users.onclick = navigate;
+		}
+
+		if (products) {
+			products.onclick = navigate;
+		}
+
+		if (reports) {
+			reports.onclick = navigate;
+		}
+
+		function navigate(e) {
+			var link = e.target.getAttribute('id');
+			window.location.href = link;
+		}
+	</script>
+	<th:block th:replace="layout/footer :: footer"></th:block>
+</body>
+</html>
