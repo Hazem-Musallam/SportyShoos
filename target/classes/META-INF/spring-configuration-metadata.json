@@ -1,0 +1,12 @@
+{
+  "groups": [
+    {
+      "name": "spring.user-datasource",
+      "type": "javax.sql.DataSource",
+      "sourceType": "com.simplelearn.jo.admin.user.database.UserDataBaseConfiguration",
+      "sourceMethod": "public javax.sql.DataSource userDataSource() "
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

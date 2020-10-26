@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
+<head th:replace="layout/header :: head">
+</head>
+
+<body id="page-top">
+	<th:block th:replace="/layout/header :: navbar"></th:block>
+
+	<div data-spy="scroll" data-target="#scroll-sidebar" data-offset="0"
+		class="scrollspy-example">
+		<!-- Portfolio Section -->
+		<section class="page-section portfolio" id="page-content">
+			<div class="container">
+
+				<div th:if="${success}" class="alert alert-success"
+					th:text="#{alert.success}"></div>
+
+				<!-- Portfolio Section Heading -->
+				<h2
+					class="page-section-heading text-center text-uppercase text-secondary mb-0">Edit
+					Product</h2>
+
+				<!-- Icon Divider -->
+				<div class="divider-custom">
+					<div class="divider-custom-line"></div>
+				</div>
+
+
+
+				<form th:action="@{/products/edit}" enctype="multipart/form-data"
+					method="post" th:object="${form}">
+					<div th:if="${save}" class="alert alert-success" role="alert">Saved</div>
+					<div class="row mb-3">
+						<div class="col">
+							<label for="name">Name</label> <input id="name" maxlength="500"
+								type="text" class="form-control" th:placeholder="Name"
+								th:field="*{productName}">
+
+						</div>
+						<div class="col">
+							<label for="price">Price</label> <input id="price"
+								maxlength="500" type="number" class="form-control"
+								th:placeholder="Price" th:field="*{price}">
+						</div>
+
+						<div class="col">
+							<label for="black">Category</label> <select id="category"
+								class="form-control" th:field="*{category}"
+								th:placeholder="Category">
+								<option th:each="cat : ${categoies}" th:value="${cat.id}"
+									th:text="${cat.categoryName}"></option>
+							</select>
+						</div>
+						<input type="hidden" th:field=*{id}>
+					</div>
+
+
+
+
+					<div class="row justify-content-center">
+						<button type="submit" class="btn btn-primary mb-2">Save</button>
+					</div>
+				</form>
+
+			</div>
+
+		</section>
+	</div>
+	<th:block th:replace="/layout/footer :: footer"></th:block>
+
+</body>
+</html>
